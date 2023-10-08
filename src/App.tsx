@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
+import Home from './pages/Home';
+import Login from './pages/Login';
+import { ProtectedRoute } from './routes/ProtectedRoute';
+import { ERoutes } from './shared/enums';
+import { AuthContextProvider } from './shared/providers/authProvider';
+
+const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <AuthContextProvider>
+          <Routes>
+            <Route
+              path={ERoutes.HOME}
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route path={ERoutes.LOGIN} element={<Login />} />
+          </Routes>
+        </AuthContextProvider>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
